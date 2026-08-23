@@ -31,7 +31,7 @@ func (c *PrintfulClient) CalculateShippingRates(recipient model.ShippingRatesAdd
 		headers["X-PF-Language"] = opt.language
 	}
 
-	u := "https://api.printful.com/v2/shipping-rates"
+	u := PRINTFUL_SHIPPING_RATES_ENDPOINT
 	resp, err := c.Post(u, headers, body, ctx)
 	if err != nil {
 		log.Println(err)

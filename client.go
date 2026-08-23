@@ -29,6 +29,8 @@ const PRINTFUL_SHIPPING_RATES_ENDPOINT = "https://api.printful.com/v2/shipping-r
 const PRINTFUL_MOCKUP_ENDPOINT = "https://api.printful.com/v2/mockup-tasks"
 const PRINTFUL_STORES_ENDPOINT = "https://api.printful.com/v2/stores"
 const PRINTFUL_APPROVAL_SHEETS_ENDPOINT = "https://api.printful.com/v2/approval-sheets"
+const PRINTFUL_CATALOG_CATEGORIES = "https://api.printful.com/v2/catalog-categories"
+
 
 type PrintfulClient struct {
 	accessToken   string
@@ -274,7 +276,7 @@ func (c *PrintfulClient) GetCatalogVariants(productId int, opts ...RequestOption
 	}
 
 	for {
-		u, _ := buildURL("https://api.printful.com/v2/catalog-products/"+strconv.Itoa(productId)+"/catalog-variants", opt)
+		u, _ := buildURL(PRINTFUL_CATALOG_PRODUCTS+"/"+strconv.Itoa(productId)+"/catalog-variants", opt)
 		resp, err := c.Get(u, headers, ctx)
 		if err != nil {
 			log.Println(err)
@@ -323,7 +325,7 @@ func (c *PrintfulClient) GetProductPrices(productId int, opts ...RequestOption) 
 	}
 
 	for {
-		u, _ := buildURL("https://api.printful.com/v2/catalog-products/"+strconv.Itoa(productId)+"/prices", opt)
+		u, _ := buildURL(PRINTFUL_CATALOG_PRODUCTS+"/"+strconv.Itoa(productId)+"/prices", opt)
 		resp, err := c.Get(u, headers, ctx)
 		if err != nil {
 			log.Println(err)
@@ -355,7 +357,7 @@ func (c *PrintfulClient) GetProductPrices(productId int, opts ...RequestOption) 
 	return &prices, nil
 }
 
-func (c *PrintfulClient) GetVariantPrices(varianttId int, opts ...RequestOption) (*model.VariantPrice, error) {
+func (c *PrintfulClient) GetVariantPrices(variantId int, opts ...RequestOption) (*model.VariantPrice, error) {
 	opt := getOptions(opts...)
 
 	var ctx context.Context
@@ -370,7 +372,7 @@ func (c *PrintfulClient) GetVariantPrices(varianttId int, opts ...RequestOption)
 		headers["X-PF-Language"] = opt.language
 	}
 
-	u, _ := buildURL("https://api.printful.com/v2/catalog-variants/"+strconv.Itoa(varianttId)+"/prices", opt)
+	u, _ := buildURL(PRINTFUL_CATALOG_VARIANTS+"/"+strconv.Itoa(variantId)+"/prices", opt)
 	resp, err := c.Get(u, headers, ctx)
 	if err != nil {
 		log.Println(err)
@@ -390,7 +392,7 @@ func (c *PrintfulClient) GetVariantPrices(varianttId int, opts ...RequestOption)
 	return &response.Data, nil
 }
 
-func (c *PrintfulClient) GetVariantImages(varianttId int, opts ...RequestOption) (*model.VariantImages, error) {
+func (c *PrintfulClient) GetVariantImages(variantId int, opts ...RequestOption) (*model.VariantImages, error) {
 	opt := getOptions(opts...)
 
 	var ctx context.Context
@@ -405,7 +407,7 @@ func (c *PrintfulClient) GetVariantImages(varianttId int, opts ...RequestOption)
 		headers["X-PF-Language"] = opt.language
 	}
 
-	u, _ := buildURL("https://api.printful.com/v2/catalog-variants/"+strconv.Itoa(varianttId)+"/images", opt)
+	u, _ := buildURL(PRINTFUL_CATALOG_VARIANTS+"/"+strconv.Itoa(variantId)+"/images", opt)
 	resp, err := c.Get(u, headers, ctx)
 	if err != nil {
 		log.Println(err)
@@ -494,7 +496,7 @@ func (c *PrintfulClient) GetMockupTemplates(productId int, opts ...RequestOption
 	}
 
 	for {
-		u, _ := buildURL("https://api.printful.com/v2/catalog-products/"+strconv.Itoa(productId)+"/mockup-templates", opt)
+		u, _ := buildURL(PRINTFUL_CATALOG_PRODUCTS+"/"+strconv.Itoa(productId)+"/mockup-templates", opt)
 		log.Println(u)
 		resp, err := c.Get(u, headers, ctx)
 		if err != nil {
@@ -544,7 +546,7 @@ func (c *PrintfulClient) GetMockupStyles(productId int, opts ...RequestOption) (
 	}
 
 	for {
-		u, _ := buildURL("https://api.printful.com/v2/catalog-products/"+strconv.Itoa(productId)+"/mockup-styles", opt)
+		u, _ := buildURL(PRINTFUL_CATALOG_PRODUCTS+"/"+strconv.Itoa(productId)+"/mockup-styles", opt)
 		log.Println(u)
 		resp, err := c.Get(u, headers, ctx)
 		if err != nil {
@@ -597,7 +599,7 @@ func (c *PrintfulClient) GetProductImages(productId int, opts ...RequestOption) 
 	}
 
 	for {
-		u, _ := buildURL("https://api.printful.com/v2/catalog-products/"+strconv.Itoa(productId)+"/images", opt)
+		u, _ := buildURL(PRINTFUL_CATALOG_PRODUCTS+"/"+strconv.Itoa(productId)+"/images", opt)
 		log.Println(u)
 		resp, err := c.Get(u, headers, ctx)
 		if err != nil {

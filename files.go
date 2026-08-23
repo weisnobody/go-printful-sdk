@@ -30,7 +30,7 @@ func (c *PrintfulClient) AddFile(url string, opts ...RequestOption) (*model.File
 		headers["X-PF-Language"] = opt.language
 	}
 
-	u := "https://api.printful.com/v2/files"
+	u := PRINTFUL_FILES_ENDPOINT
 	resp, err := c.Post(u, headers, body, ctx)
 	if err != nil {
 		log.Println(err)
