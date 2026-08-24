@@ -36,7 +36,7 @@ func (c *PrintfulClient) CreateOrder(recipient model.Address, items []model.Cata
 		headers["X-PF-Language"] = opt.language
 	}
 
-	u := "https://api.printful.com/v2/orders"
+	u := PRINTFUL_ORDERS_ENDPOINT+"/"
 	resp, err := c.Post(u, headers, body, ctx)
 	if err != nil {
 		log.Println(err)
@@ -89,7 +89,7 @@ func (c *PrintfulClient) GetOrder(orderID any, opts ...RequestOption) (*model.Or
 		headers["X-PF-Language"] = opt.language
 	}
 
-	u, _ := buildURL("https://api.printful.com/v2/orders/"+id, opt)
+	u, _ := buildURL(PRINTFUL_ORDERS_ENDPOINT+"/"+id, opt)
 	resp, err := c.Get(u, headers, ctx)
 	if err != nil {
 		log.Println(err)
@@ -133,7 +133,7 @@ func (c *PrintfulClient) GetOrderItem(orderID any, itemID any, opts ...RequestOp
 		headers["X-PF-Language"] = opt.language
 	}
 
-	u, _ := buildURL("https://api.printful.com/v2/orders/"+id+"/order-items/"+id2, opt)
+	u, _ := buildURL(PRINTFUL_ORDERS_ENDPOINT+"/"+id+"/order-items/"+id2, opt)
 	resp, err := c.Get(u, headers, ctx)
 	if err != nil {
 		log.Println(err)

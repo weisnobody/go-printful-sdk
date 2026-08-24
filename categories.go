@@ -31,7 +31,7 @@ func (c *PrintfulClient) GetCatalogCategories(opts ...RequestOption) ([]model.Ca
 	}
 
 	for {
-		u, _ := buildURL("https://api.printful.com/v2/catalog-categories", opt)
+		u, _ := buildURL(PRINTFUL_CATALOG_CATEGORIES, opt)
 		resp, err := c.Get(u, headers, ctx)
 		if err != nil {
 			log.Println(err)

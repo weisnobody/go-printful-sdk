@@ -26,7 +26,7 @@ func (c *PrintfulClient) GetCatalogProduct(productId int, opts ...RequestOption)
 		headers["X-PF-Language"] = opt.language
 	}
 
-	u, _ := buildURL("https://api.printful.com/v2/catalog-products/"+strconv.Itoa(productId), opt)
+	u, _ := buildURL(PRINTFUL_CATALOG_PRODUCTS+"/"+strconv.Itoa(productId), opt)
 	log.Println(u)
 	resp, err := c.Get(u, headers, ctx)
 	if err != nil {
@@ -62,7 +62,7 @@ func (c *PrintfulClient) GetProductCategories(productId int, opts ...RequestOpti
 
 	categories := make([]model.Category, 0, 100)
 	for {
-		u, _ := buildURL("https://api.printful.com/v2/catalog-products/"+strconv.Itoa(productId)+"/catalog-categories", opt)
+		u, _ := buildURL(PRINTFUL_CATALOG_PRODUCTS+"/"+strconv.Itoa(productId)+"/catalog-categories", opt)
 		resp, err := c.Get(u, headers, ctx)
 		if err != nil {
 			log.Println(err)
