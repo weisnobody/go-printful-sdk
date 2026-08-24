@@ -3,9 +3,9 @@ package responses
 import model "github.com/baldurstod/go-printful-sdk/model"
 
 type CreateOrderResponse struct {
-	Data model.Order `json:"data" bson:"data"`
+	Data model.Order `json:"data" bson:"data" mapstructure:"data" db:"data" csv:"data"`
 }
 
 type GetItemById struct {
-	Data model.CatalogItemReadonly `json:"data" bson:"data" mapstructure:"data"`
+	Data model.CatalogItemReadonly `json:"data" bson:"data" mapstructure:"data" db:"data" csv:"data"`
 }

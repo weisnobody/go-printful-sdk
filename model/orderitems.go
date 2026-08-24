@@ -10,7 +10,7 @@ const (
 )
 
 type OrderItem struct {
-	Source string `json:"source" bson:"source"`
-	CatalogItemSummary
+	Source             string `json:"source" bson:"source" mapstructure:"source" db:"source" csv:"source"`
+	CatalogItemSummary `mapstructure:"catalog_item_summary" db:"catalog_item_summary" csv:"catalog_item_summary"`
 	//TODO: add WarehouseItemSummary
 }
