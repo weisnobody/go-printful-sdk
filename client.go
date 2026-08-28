@@ -304,6 +304,97 @@ func (c *PrintfulClient) GetCatalogVariants(productId int, opts ...RequestOption
 	return variants, nil
 }
 
+
+func (c *PrintfulClient) GetProductAvailability(productId int, opts ...RequestOption) ([]model.VariantAvailability, error) {
+	opt := getOptions(opts...)
+
+	availabilities := make([]model.VariantAvailability, 0, 10)
+
+	var ctx context.Context
+	var cancel context.CancelFunc
+	if opt.timeout > 0 {
+		ctx, cancel = context.WithTimeout(context.Background(), opt.timeout)
+		defer cancel()
+	}
+
+	opt.offset = 0
+	opt.limit = 100
+
+	for {
+		u, _ := buildURL(PRINTFUL_CATALOG_PRODUCTS+"/"+strconv.Itoa(productId)+"/availability", opt)
+		log.Println(u)
+		resp, err := c.Get(u, nil, ctx)
+		if err != nil {
+			log.Println(err)
+			return nil, errors.New("unable to get printful response")
+		}
+		defer resp.Body.Close()
+
+		response := &responses.VariantAvailabilityResponse{}
+		err = json.NewDecoder(resp.Body).Decode(&response)
+		if err != nil {
+			log.Println(err)
+			return nil, errors.New("unable to decode printful response")
+		}
+
+		availabilities = append(availabilities, response.Data...)
+
+		next := response.Paging.Offset + response.Paging.Limit
+		if next >= response.Paging.Total {
+			break
+		}
+		opt.offset = next
+		opt.limit = response.Paging.Limit
+	}
+
+	return availabilities, nil
+} // end func GetProductAvailability
+
+func (c *PrintfulClient) GetProductCatalogCategories(productId int, opts ...RequestOption) ([]model.Category, error) {
+	opt := getOptions(opts...)
+
+	categories := make([]model.Category, 0, 400)
+
+	var ctx context.Context
+	var cancel context.CancelFunc
+	if opt.timeout > 0 {
+		ctx, cancel = context.WithTimeout(context.Background(), opt.timeout)
+		defer cancel()
+	}
+
+	opt.offset = 0
+	opt.limit = 100
+
+	for {
+		u, _ := buildURL(PRINTFUL_CATALOG_PRODUCTS+"/"+strconv.Itoa(productId)+"/catalog-categories", opt)
+		log.Println(u)
+		resp, err := c.Get(u, nil, ctx)
+		if err != nil {
+			log.Println(err)
+			return nil, errors.New("unable to get printful response")
+		}
+		defer resp.Body.Close()
+
+		response := &responses.CategoriesResponse{}
+		err = json.NewDecoder(resp.Body).Decode(&response)
+		if err != nil {
+			log.Println(err)
+			return nil, errors.New("unable to decode printful response")
+		}
+
+		categories = append(categories, response.Data...)
+
+		next := response.Paging.Offset + response.Paging.Limit
+		if next >= response.Paging.Total {
+			break
+		}
+		opt.offset = next
+		opt.limit = response.Paging.Limit
+	}
+
+	return categories, nil
+} // end func GetProductCatalogCategories
+
 func (c *PrintfulClient) GetProductPrices(productId int, opts ...RequestOption) (*model.ProductPrices, error) {
 	opt := getOptions(opts...)
 
