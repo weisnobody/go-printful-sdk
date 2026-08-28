@@ -62,6 +62,10 @@ func (c *PrintfulClient) Post(path string, headers map[string]string, body map[s
 	return c.fetch("POST", path, headers, body, ctx)
 }
 
+func (c *PrintfulClient) Put(path string, headers map[string]string, body map[string]interface{}, ctx context.Context) (*http.Response, error) {
+	return c.fetch("PUT", path, headers, body, ctx)
+}
+
 func (c *PrintfulClient) fetch(method string, path string, headers map[string]string, body map[string]interface{}, ctx context.Context) (*http.Response, error) {
 	if ctx == nil {
 		ctx = context.Background()
