@@ -421,6 +421,61 @@ func TestGetProductImages(t *testing.T) {
 	}
 }
 
+func TestGetProductAvailability(t *testing.T) {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
+	token, err := getAuthToken()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	client := printfulsdk.NewPrintfulClient(token)
+
+	productId := 71
+	images, err := client.GetProductAvailability(productId, printfulsdk.WithLimit(10))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	j, _ := json.MarshalIndent(&images, "", "\t")
+
+	err = os.WriteFile("./var/product_availability_"+strconv.Itoa(productId)+".json", j, 0666)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+}
+
+func TestGetProductCatalogCategories(t *testing.T) {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
+	token, err := getAuthToken()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	client := printfulsdk.NewPrintfulClient(token)
+
+	productId := 71
+	images, err := client.GetProductCatalogCategories(productId, printfulsdk.WithLimit(10))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	j, _ := json.MarshalIndent(&images, "", "\t")
+
+	err = os.WriteFile("./var/product_catalogcategories_"+strconv.Itoa(productId)+".json", j, 0666)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+}
+
+
 func TestRequestBody(t *testing.T) {
 	opt := printfulsdk.GetOptions(
 		printfulsdk.SetURL("https://www.example.com/files/tshirts/example.png"),
